@@ -1,7 +1,7 @@
 #template for web projects
 
-# folders to ignore
-env/
+# folders to ignore virtual env, vscode etc
+env/ 
 .vscode/
 
 # files to ignore 
