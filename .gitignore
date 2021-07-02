@@ -1,0 +1,7 @@
+#template for web projects
+
+# folders to ignore
+env/
+.vscode/
+
+# files to ignore 
