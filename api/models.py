@@ -17,14 +17,14 @@ class Book(models.Model):
 class Author(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-
+    about = models.TextField(null=True, default='NULL' , blank=True) #added this field incase we want to display an author page down the line
     def __str__(self):
         return f'{self.first_name} , {self.last_name}'
 
 class BookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.RESTRICT , null=True)
     due_back = models.DateField(null=True, blank=True)
-    # check if using student here is correct in relationship
+    # check if using student here is correct in relationship => seems okay to me - Tanmay
     student=models.ForeignKey('Student' , on_delete=models.RESTRICT, null=True )
 
     LOAN_STATUS = (
@@ -55,5 +55,23 @@ class Student(models.Model):
     def __str__(self):
         return self.libid
 
+class Notice(models.Model):
+    posted_on = models.DateField(null=True, blank=True)
+    title = models.CharField(max_length=200,blank=False,null=False)
+    content = models.TextField()
+    # needs a field for writer - can be either teacher or student. how to handle?
+    APPR_STATUS = (
+        ('y', 'yes'),
+        ('n', 'no'),
+    )
 
+    status = models.CharField(
+        max_length=1,
+        choices=APPR_STATUS,
+        blank=True,
+        default='n',
+        help_text='Approval status by librarian',
+    )
     
+    def __str__(self):
+        return f' {self.title} ({self.posted_on})'
