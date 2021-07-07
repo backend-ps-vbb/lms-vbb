@@ -23,7 +23,7 @@ class StudentSerializer(serializers.ModelSerializer):
 		fields = ['libid','regno','branch','section','semester','yearofadm']
 
 class BookInstanceSerializer(serializers.ModelSerializer):
-	book = BookSerializer()
+	# book = BookSerializer()
 	# student = StudentSerializer()
 	class Meta:
 		model = BookInstance
