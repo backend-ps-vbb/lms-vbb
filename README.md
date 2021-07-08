@@ -16,7 +16,7 @@ college and important suggestions regarding books.
 - Subscription for emails and newsletters (Advance Level task)
 
 ## Status
- - List work to do here
+ - IMP - add foreign key of User to Book Instance, Notice.
 
 ## Development - Do when working on deployment to Heroku
 
