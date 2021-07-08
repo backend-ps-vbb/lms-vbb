@@ -1,10 +1,10 @@
-from .models import Student, Book, BookInstance, Author, Notice
-from .serializers import StudentSerializer, BookSerializer, AuthorSerializer, BookInstanceSerializer, NoticeSerializer
+from .models import  Book, BookInstance, Author, Notice
+from .serializers import  BookSerializer, AuthorSerializer, BookInstanceSerializer, NoticeSerializer
 from rest_framework import viewsets
 
-class StudentModelViewset(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+# class StudentModelViewset(viewsets.ModelViewSet):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
   
 class BookModelViewset(viewsets.ModelViewSet):
     queryset = Book.objects.all()

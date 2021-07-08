@@ -1,6 +1,6 @@
 from django.utils import translation
 from rest_framework import serializers
-from .models import Book,BookInstance,Student,Author,Notice
+from .models import Book,BookInstance,Author,Notice
 
 class AuthorSerializer(serializers.ModelSerializer):
 	# books = serializers.HyperlinkedRelatedField(view_name='Author-detail',many=True, queryset=Book.objects.all(),allow_null=True)
@@ -17,17 +17,17 @@ class BookSerializer(serializers.ModelSerializer):
 		model = Book
 		fields = ['code', 'bookname', 'author','publication','subject']
 
-class StudentSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Student
-		fields = ['libid','regno','branch','section','semester','yearofadm']
+# class StudentSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = Student
+# 		fields = ['libid','regno','branch','section','semester','yearofadm']
 
 class BookInstanceSerializer(serializers.ModelSerializer):
 	# book = BookSerializer()
 	# student = StudentSerializer()
 	class Meta:
 		model = BookInstance
-		fields = ['id','book', 'due_back', 'student','status']
+		fields = ['id','book', 'due_back','status']
 
 
 class NoticeSerializer(serializers.ModelSerializer):
