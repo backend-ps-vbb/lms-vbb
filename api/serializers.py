@@ -15,7 +15,29 @@ class BookSerializer(serializers.ModelSerializer):
 	# returns a list of hyperlinks to the book instances, can change to returning just the primary key
 	class Meta:
 		model = Book
-		fields = ['code', 'bookname', 'author','publication','subject']
+		fields = ['code', 'bookname', 'author','publication','subject','instances']
+	# while creating book, by default create req number of instances.
+	def create(self, validated_data):
+		book_model = Book(
+			bookname=validated_data['bookname'],
+			author=validated_data['author'],
+			publication=validated_data['publication'],
+			subject=validated_data['subject'],
+			instances=validated_data['instances'],
+		)
+		book_model.save()
+		book_id = book_model.code
+		copies = int (validated_data['instances'])
+		for i in range(copies):
+			instance = BookInstance(
+				book=book_model,
+				due_back=None,
+				student=None,
+				is_available=True,
+			)
+			instance.save()
+
+		return book_model
 
 # class StudentSerializer(serializers.ModelSerializer):
 # 	class Meta:
@@ -27,10 +49,10 @@ class BookInstanceSerializer(serializers.ModelSerializer):
 	# student = StudentSerializer()
 	class Meta:
 		model = BookInstance
-		fields = ['id','book', 'due_back','status']
+		fields = ['id','book', 'due_back','is_available']
 
 
 class NoticeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Notice
-		fields = ['id','posted_on', 'title', 'content', 'status']
+		fields = ['id','posted_on', 'title', 'content', 'is_approved']
