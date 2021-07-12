@@ -20,7 +20,7 @@ class BookInstanceModelViewset(viewsets.ModelViewSet):
     serializer_class = BookInstanceSerializer
     
 class NoticeModelViewset(viewsets.ModelViewSet):
-    # for students, view only approved notices, allow POST request. Do not allow acces to modify, delete. 
+    # for students, view only approved notices, allow POST request. Do not allow acces to modify, delete. Do not allow modification of is_approved field
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
 
