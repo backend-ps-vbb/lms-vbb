@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+{% block title %}
+    {{title}}
+{% endblock %}
+{% block content %}
+
+	{% if auth_error == 1 %}
+    	
+    <strong> {{ error_message }}</strong>
+
+	<a href="{% url 'login' %}?next={{ redirect }} ">Log In As an Authorised User! </a>
+	{% endif %}
+	
+{% endblock %}
