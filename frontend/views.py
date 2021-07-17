@@ -22,7 +22,7 @@ def notice_board(request):
 # @user_passes_test(is_librarian)
 def approve_notice(request):
 	if (not (request.user.is_superuser)):
-		# print("here")
+		# unauthorized accesss
 		return render(request, 'frontend/error.html',{
 			"tilte":'Unauthorized',
 			"auth_error":1,
@@ -30,6 +30,7 @@ def approve_notice(request):
 			"redirect": "/app/approvenotice"
 		})
 	# print("authorized")
+	
 	notices = []
 	for notice in Notice.objects.all():
 		if(not notice.is_approved):
@@ -57,7 +58,7 @@ def approve_notice(request):
 		valid = True
 		for field in request.POST:
 			# Dev note - need to modify if more form fields are added
-			print(field, request.POST[field])
+			# print(field, request.POST[field])
 			if(field=="csrfmiddlewaretoken"):
 				continue
 			elif(field=="action"):
@@ -68,15 +69,33 @@ def approve_notice(request):
 					if(obj.is_approved):
 						valid = False
 						break
-					print(field, obj)
+					# print(field, obj)
 					to_modify.append(obj)
 				else:
 					valid = False
 					break
 		if (valid):
 			print("valid")
-			for notice in to_modify:
-				print(notice)
+			# update notices here. Data is validated here.
+			if(action=="approve"):
+				for notice in to_modify:
+					notice.is_approved = True
+					notice.save()
+					print("approved: ")
+					print(notice)
+			else:
+				for notice in to_modify:
+					print("yeeting: ")
+					print(notice)
+					notice.delete()
+			notices = []
+			for notice in Notice.objects.all():
+				if(not notice.is_approved):
+					notices.append(notice)
+			return render( request, "frontend/approvenotice.html", {
+			"notices":notices,
+			"title":"Great Success"
+			})
 		else:
 			print("invalid")
 			return render( request, "frontend/approvenotice.html", {
@@ -84,13 +103,7 @@ def approve_notice(request):
 			"title":"Incorrect Notice IDs selected"
 			})
 
-
-		return render( request, "frontend/approvenotice.html", {
-		"notices":notices,
-		"title":"Done"
-		})
-
-	# get request here
+	# GET request - return the form.
 	return render( request, "frontend/approvenotice.html", {
 		"notices":notices,
 		"title":"Approve Notices"
