@@ -42,7 +42,9 @@ def approve_notice(request):
 		except:
 			return render( request, "frontend/approvenotice.html", {
 			"notices":notices,
-			"title":"No Action specified!"
+			"error":True,
+			"message":"No Action specified!",
+			"title":"Approve Notices"
 		})
 
 		#action is present
@@ -50,7 +52,9 @@ def approve_notice(request):
 			print(action + " : is invalid")
 			return render( request, "frontend/approvenotice.html", {
 				"notices":notices,
-				"title":"Incorrect Action specified!"
+				"error":True,
+				"message":"Incorrect Action specified!",
+				"title":"Approve Notices"
 			})
 
 		#Correct action is present
@@ -74,6 +78,9 @@ def approve_notice(request):
 				else:
 					valid = False
 					break
+		if(not to_modify):
+			print("invalid")
+			valid = False
 		if (valid):
 			print("valid")
 			# update notices here. Data is validated here.
@@ -94,13 +101,17 @@ def approve_notice(request):
 					notices.append(notice)
 			return render( request, "frontend/approvenotice.html", {
 			"notices":notices,
-			"title":"Great Success"
+			"success":True,
+			"message":"Great Success",
+			"title":"Approve Notices"
 			})
 		else:
 			print("invalid")
 			return render( request, "frontend/approvenotice.html", {
 			"notices":notices,
-			"title":"Incorrect Notice IDs selected"
+			"error":True,
+			"message":"Incorrect or No Notice IDs selected!",
+			"title":"Approve Notices"
 			})
 
 	# GET request - return the form.
