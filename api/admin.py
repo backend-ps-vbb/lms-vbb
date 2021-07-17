@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Book, BookInstance, Notice
+from .models import Author, Book, BookInstance, History, Notice
 
 # @admin.register(Student)
 # class StudentAdmin(admin.ModelAdmin):
@@ -21,3 +21,6 @@ class AuthorAdmin(admin.ModelAdmin):
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ['posted_on', 'title', 'content']
     
+@admin.register(History)
+class HistoryAdmin(admin.ModelAdmin):
+    list_display = ['book', 'issued_on', 'due_on', 'issuer']

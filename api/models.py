@@ -8,11 +8,10 @@ class Book(models.Model):
     author=models.ForeignKey('Author',on_delete=models.SET_NULL,null=True)
     publication=models.CharField(max_length=255,null=True)
     subject=models.CharField( max_length=255, null=True, blank=True)
-    instances=models.IntegerField(null=False,blank=False)
+    instances=models.IntegerField(null=False,blank=False,default=0)
     
     def __str__(self):
         return self.bookname
-
 
 class Author(models.Model):
     first_name = models.CharField(max_length=20)
@@ -21,16 +20,20 @@ class Author(models.Model):
     def __str__(self):
         return f'{self.first_name} , {self.last_name}'
 
-# class Student(models.Model):
-#     libid=models.AutoField(primary_key=True)
-#     regno=models.IntegerField(default=None,null=True, blank=True)
-#     branch=models.CharField(max_length=255 , null=True, default=None , blank=True)
-#     section=models.CharField(max_length=2 , null=True, default=None , blank=True)
-#     semester=models.CharField(max_length=255 , null=True, default=None , blank=True)
-#     yearofadm=models.CharField(max_length=5 , null=True, default=None , blank=True)
+class History(models.Model): # record instance of issue and return
+    book = models.ForeignKey('Book',on_delete=models.DO_NOTHING,null=False,blank=False)
+    issued_on = models.DateField(null=False, blank=False)
+    due_on = models.DateField(null=False, blank=False)
+    instancne = models.ForeignKey('BookInstance',on_delete=models.DO_NOTHING,null=False,blank=False)
+    issuer = models.ForeignKey(CustomUser,on_delete=models.DO_NOTHING,null=False,blank=False)
+    returned = models.BooleanField(
+        blank=True,
+        default=None,
+        help_text='Has the book been returned?',
+    )
 
-#     def __str__(self):
-#         return self.branch
+    def __str__(self):
+        return f'{self.book} on {self.issued_on}'
 
 
 class BookInstance(models.Model):
