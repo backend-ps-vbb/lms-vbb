@@ -4,6 +4,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .forms import *
+from datetime import datetime, timedelta
 
 def is_librarian(user):
 	return (user.is_superuser )
@@ -27,6 +28,7 @@ def BookCreate(request):
 	if request.method == 'POST':
 		form = BookForm(data=request.POST, files=request.FILES)
 		if form.is_valid():
+			#generate book instances
 			copies = (form.cleaned_data['instances'])
 			print('copies:')
 			print(copies)
@@ -43,6 +45,23 @@ def BookCreate(request):
 	
 	return render(request, 'frontend/form.html', locals())
 
+@login_required
+def BookIssue(request, pk):
+	# http://127.0.0.1:8000/app/book/16/issue example url
+	try:
+		book_model = Book.objects.get(pk=pk)
+	except:
+		return redirect('home') # change this to book detail
+	copy = BookInstance.objects.filter(book=book_model).filter(is_available=True)[0]
+	if(copy):
+		print(copy)
+		copy.is_available = False
+		copy.student = request.user
+		copy.due_back = datetime.now() + timedelta(days=7)
+		copy.save()
+		return redirect('home')
+	else:
+		return redirect('home')
 
 
 @login_required
