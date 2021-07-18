@@ -1,11 +1,49 @@
 from django.http import request
-from api.models import Notice
-from django.shortcuts import render
+from api.models import *
+from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from .forms import *
 
 def is_librarian(user):
-    return (user.is_superuser )
+	return (user.is_superuser )
+
+@login_required
+def BookListView(request):
+	book_list = Book.objects.all()
+	# MODELNAME.objects.all() is used to get all objects i.e. tuples from database
+	return render(request, 'frontend/book_list.html', locals())
+
+@login_required
+def BookDetailView(request, pk):
+	book = get_object_or_404(Book, code=pk)
+	# reviews=Reviews.objects.filter(book=book).exclude(review="none")
+	return render(request, 'frontend/book_detail.html', locals())
+
+@login_required
+@user_passes_test(is_librarian) # add seializer func
+def BookCreate(request):
+	form = BookForm()
+	if request.method == 'POST':
+		form = BookForm(data=request.POST, files=request.FILES)
+		if form.is_valid():
+			copies = (form.cleaned_data['instances'])
+			print('copies:')
+			print(copies)
+			book_model = form.save()
+			for i in range(int(copies)):
+				instance = BookInstance(
+				book=book_model,
+				due_back=None,
+				student=None,
+				is_available=True,)
+				instance.save()
+
+			return redirect('home')
+	
+	return render(request, 'frontend/form.html', locals())
+
+
 
 @login_required
 def notice_board(request):

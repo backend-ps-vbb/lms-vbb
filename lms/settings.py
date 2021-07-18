@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
     'rest_framework',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
