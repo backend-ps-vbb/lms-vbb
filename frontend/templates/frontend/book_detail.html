@@ -21,7 +21,7 @@
         <div style="margin-left:20px;margin-top:20px">
             <h4>Copies</h4>
             {% if user.is_superuser %}
-                <a class="btn btn-danger" href="">DELETE</a>
+                <a class="btn btn-danger" href="{% url 'frontend:book_issue', book.pk %}">DELETE</a>
                 <a class="btn btn-success" href="">Update</a>
 
             {% endif %}

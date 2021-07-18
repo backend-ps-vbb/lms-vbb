@@ -10,6 +10,12 @@ def is_librarian(user):
 	return (user.is_superuser )
 
 @login_required
+def Index(request):
+	# book_list = Book.objects.all()
+	# MODELNAME.objects.all() is used to get all objects i.e. tuples from database
+	return render(request, 'home.html')
+
+@login_required
 def BookListView(request):
 	book_list = Book.objects.all()
 	# MODELNAME.objects.all() is used to get all objects i.e. tuples from database
@@ -52,13 +58,29 @@ def BookIssue(request, pk):
 		book_model = Book.objects.get(pk=pk)
 	except:
 		return redirect('home') # change this to book detail
+	issued = BookInstance.objects.filter(book=book_model).filter(is_available=False).filter(student=request.user)[0] # all issued copies.
+	
+	if(issued): # cant issue another copy
+		print('issued')
+		return redirect('home')
+
 	copy = BookInstance.objects.filter(book=book_model).filter(is_available=True)[0]
+	
 	if(copy):
 		print(copy)
 		copy.is_available = False
 		copy.student = request.user
 		copy.due_back = datetime.now() + timedelta(days=7)
 		copy.save()
+		record = History(
+				book=book_model,
+				instancne=copy,
+				issuer=request.user,
+				issued_on = datetime.now(),
+				due_on = copy.due_back,
+				returned=False,
+			)
+		record.save()
 		return redirect('home')
 	else:
 		return redirect('home')
