@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>Mentor data</title>
+    </head>
+    <body>
+       <h1>
+        {% for mentor in mentors %}
+        <p>mentorid:{{mentor.mentorid}}</p>
+        <p>name:{{mentor.name}}</p>
+        <p>teamname:{{mentor.teamname}}</p>
+        {% endfor %}
+       </h1>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Book reports</title>
+    </head>
+    <body>
+       <h2>
+        {% for boo in books %}
+            <p>Code={{ boo.code }}</p>
+            <p>Bookname={{ boo.bookname }}</p>
+            <p>Author={{ boo.author }}</p>
+            <p>Publication={{ boo.publication }}</p>
+            <p>Subject={{ boo.subject}}</p>
+            <p>No. of copies={{ boo.instances }}</p>
+            {% for instance in instances %}
+                {% if boo == instance.book %} 
+                   <p>Student:{{instance.student}},Due date:{{instance.due_back}}</p> 
+                  {% if } 
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+       </h2>
+    </body>
+</html>
