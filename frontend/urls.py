@@ -13,6 +13,7 @@ urlpatterns = [
     # path('book/<int:pk>/delete/', views.BookDelete, name='book_delete'),
 
     path("noticeboard", views.notice_board, name="notice_board"),
-    path("approvenotice", views.approve_notice, name="approve_notice"),
+    path("noticeboard/create", views.NoticeCreate, name="notice_create"),
+    path("noticeboard/approve", views.approve_notice, name="approve_notice"),
      
 ]

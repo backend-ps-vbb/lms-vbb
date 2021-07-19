@@ -11,9 +11,14 @@ def is_librarian(user):
 
 @login_required
 def Index(request):
-	# book_list = Book.objects.all()
+	print("home")
+	copies = BookInstance.objects.filter(is_available=False).filter(student=request.user)
+	for copy in copies:
+		print(copy)
 	# MODELNAME.objects.all() is used to get all objects i.e. tuples from database
-	return render(request, 'home.html')
+	return render(request, 'home.html',{
+		"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+	})
 
 @login_required
 def BookListView(request):
@@ -24,8 +29,11 @@ def BookListView(request):
 @login_required
 def BookDetailView(request, pk):
 	book = get_object_or_404(Book, code=pk)
-	# reviews=Reviews.objects.filter(book=book).exclude(review="none")
-	return render(request, 'frontend/book_detail.html', locals())
+	copies=BookInstance.objects.filter(book=book).filter(is_available=True)
+	return render(request, 'frontend/book_detail.html', {
+		"book":book,
+		"available_copies": len(copies),
+	})
 
 @login_required
 @user_passes_test(is_librarian) # add seializer func
@@ -54,13 +62,14 @@ def BookCreate(request):
 @login_required
 def BookIssue(request, pk):
 	# http://127.0.0.1:8000/app/book/16/issue example url
+	print('tryying to issue')
 	try:
 		book_model = Book.objects.get(pk=pk)
 	except:
 		return redirect('home') # change this to book detail
-	issued = BookInstance.objects.filter(book=book_model).filter(is_available=False).filter(student=request.user)[0] # all issued copies.
+	issued = BookInstance.objects.filter(book=book_model).filter(is_available=False).filter(student=request.user) # all issued copies.
 	
-	if(issued): # cant issue another copy
+	if(len(issued)!=0): # cant issue another copy
 		print('issued')
 		return redirect('home')
 
@@ -85,6 +94,35 @@ def BookIssue(request, pk):
 	else:
 		return redirect('home')
 
+@login_required
+# form for notice.
+def NoticeCreate(request):
+	form = NoticeForm()
+	print(request.path)
+	if request.method == 'POST':
+		form = NoticeForm(data=request.POST, files=request.FILES)
+		if form.is_valid():
+			#generate notice
+			notice = form.save()
+			print(notice)
+			notice.posted_on = datetime.now()
+			notice.posted_by = request.user
+			if request.user.is_superuser:
+				notice.is_approved = True
+			notice.save()
+			notices = []
+			for notice in Notice.objects.all():
+				if(notice.is_approved):
+					notices.append(notice)
+					print(notice)
+			return render( request, "frontend/noticeboard.html", {
+				"notices":notices,
+				"title":"noticeboard",
+				"success":True,
+				"message":"Notice Submitted successfuly"
+			})
+	return render(request, 'frontend/form.html', locals())
+
 
 @login_required
 def notice_board(request):
@@ -105,8 +143,9 @@ def approve_notice(request):
 		return render(request, 'frontend/error.html',{
 			"tilte":'Unauthorized',
 			"auth_error":1,
-			"error_message":"Not Authorized to access this feature.",
-			"redirect": "/app/approvenotice"
+			"error":1,
+			"message":"Not Authorized to access this feature.",
+			"redirect": request.path
 		})
 	# print("authorized")
 	

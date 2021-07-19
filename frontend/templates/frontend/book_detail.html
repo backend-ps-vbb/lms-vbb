@@ -13,22 +13,18 @@
         <h1>Title: {{ book.bookname }}</h1>
 
         <p><strong>Author:</strong>{{ book.author }}</p>
-        <p><strong>Summary:</strong> {{ book.summary }}</p>
-        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-        <p><strong>Language:</strong> {{ book.language }}</p>
-        <p><strong>Genre:</strong>
-            {% for genre in book.genre.all %}{{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        <p><strong>Subject:</strong> {{ book.subject }}</p>
         <div style="margin-left:20px;margin-top:20px">
             <h4>Copies</h4>
             {% if user.is_superuser %}
-                <a class="btn btn-danger" href="{% url 'frontend:book_issue', book.pk %}">DELETE</a>
+                <a class="btn btn-danger" href="">DELETE</a>
                 <a class="btn btn-success" href="">Update</a>
 
             {% endif %}
-            {% if book.instances %}
+            {% if available_copies %}
                 <br>
-                no of avialable copies={{ book.available_copies }}<br>
-                <a class="btn btn-primary" href="">Issue</a>
+                no of avialable copies={{ available_copies }}<br>
+                <a class="btn btn-primary" href="{% url 'frontend:book_issue' book.pk %}">Issue</a>
             {% endif %}      </div>
 
     </div>
