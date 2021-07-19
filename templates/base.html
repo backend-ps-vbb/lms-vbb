@@ -58,7 +58,7 @@
             </li>
       
             <li class="nav-item">
-              <a class="nav-link" href="">Student List</a>
+              <a class="nav-link" href="{% url 'admin:accounts_customuser_changelist'%}?is_superuser__exact=0">Student List</a>
             </li>
       {% endif %}
       

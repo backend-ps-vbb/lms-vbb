@@ -55,7 +55,11 @@ def BookCreate(request):
 				is_available=True,)
 				instance.save()
 
-			return redirect('home')
+			return render(request, 'frontend/form.html', {
+			"form":BookForm(),
+			"success":True,
+			"message":str(book_model) + " added"
+			})
 	
 	return render(request, 'frontend/form.html', locals())
 
