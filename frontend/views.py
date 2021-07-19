@@ -83,7 +83,7 @@ def BookIssue(request, pk):
 		copy.save()
 		record = History(
 				book=book_model,
-				instancne=copy,
+				instance=copy,
 				issuer=request.user,
 				issued_on = datetime.now(),
 				due_on = copy.due_back,

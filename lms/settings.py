@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
-    'rest_framework',
+    'rest_framework','analytics',
     'crispy_forms',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,13 @@ REST_FRAMEWORK= {
     'DEFAULT_AUTHENTICATION_CLASSES':['rest_framework.authentication.SessionAuthentication'],
     'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAdminUser'],
 }
+
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#https://accounts.google.com/b/0/DisplayUnlockCaptcha
+#https://myaccount.google.com/lesssecureapps
+#EMAIL_HOST='smtp.gmail.com'
+#EMAIL_PORT=587
+#EMAIL_HOST_USER='' #host email address
+#EMAIL_HOST_PASSWORD=''
+#EMAIL_USE_TLS = True

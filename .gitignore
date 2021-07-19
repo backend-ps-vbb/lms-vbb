@@ -4,12 +4,15 @@
 env/ 
 .vscode/
 */__pycache__/
-
+*/__pycache__/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.pyc
 
 # C extensions
 *.so
 
 # files to ignore 
+db.sqlite3
+

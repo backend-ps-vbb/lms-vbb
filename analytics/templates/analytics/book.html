@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Book reports</title>{% endblock %}
+    
+{% block content %}
+        {% for boo in books %}
+            <p>Code={{ boo.code }}</p>
+            <p>Bookname={{ boo.bookname }}</p>
+            <p>Author={{ boo.author }}</p>
+            <p>Publication={{ boo.publication }}</p>
+            <p>Subject={{ boo.subject}}</p>
+            <p>No. of copies={{ boo.instances }}</p>
+            {% for instance in instances %}
+                {% if boo == instance.book %} 
+                   <p>Student:{{instance.student}},Due date:{{instance.due_back}}</p> 
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+{% endblock %}

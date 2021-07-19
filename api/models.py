@@ -9,6 +9,7 @@ class Book(models.Model):
     publication=models.CharField(max_length=255,null=True)
     subject=models.CharField( max_length=255, null=True, blank=True)
     instances=models.IntegerField(null=False,blank=False,default=0)
+
     
     def __str__(self):
         return self.bookname
@@ -21,10 +22,11 @@ class Author(models.Model):
         return f'{self.first_name} , {self.last_name}'
 
 class History(models.Model): # record instance of issue and return
+    id = models.AutoField(primary_key=True)
     book = models.ForeignKey('Book',on_delete=models.DO_NOTHING,null=False,blank=False)
     issued_on = models.DateField(null=False, blank=False)
     due_on = models.DateField(null=False, blank=False)
-    instancne = models.ForeignKey('BookInstance',on_delete=models.DO_NOTHING,null=False,blank=False)
+    instance = models.ForeignKey('BookInstance',on_delete=models.DO_NOTHING,null=False,blank=False)
     issuer = models.ForeignKey(CustomUser,on_delete=models.DO_NOTHING,null=False,blank=False)
     returned = models.BooleanField(
         blank=True,
@@ -34,7 +36,6 @@ class History(models.Model): # record instance of issue and return
 
     def __str__(self):
         return f'{self.book} on {self.issued_on}'
-
 
 class BookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.RESTRICT , null=True)
@@ -66,3 +67,24 @@ class Notice(models.Model):
     
     def __str__(self):
         return f' {self.title} ({self.posted_on})'
+
+class Mentor(models.Model):
+    mentorid=models.AutoField(primary_key=True)
+    name=models.CharField(max_length=25 , null=True, default=None , blank=True)
+    teamname=models.CharField(max_length=255 , null=True, default=None , blank=True)
+
+    def __str__(self):
+        return self.name
+
+class Student(models.Model):
+    
+    id = models.AutoField(primary_key=True)
+    libid=models.IntegerField(null=False)
+    regno=models.IntegerField( null=True, default=None , blank=True)
+    branch=models.CharField(max_length=255 , null=True, default=None , blank=True)
+    section=models.CharField(max_length=2, null=True, default=None , blank=True)
+    semester=models.CharField(max_length=255 , null=True, default=None , blank=True)
+    yearofadm=models.IntegerField( null=True, default=None , blank=True)
+
+    def __str__(self):
+        return str(self.libid)
