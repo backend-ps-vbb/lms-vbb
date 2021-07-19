@@ -22,4 +22,4 @@ class AuthorForm(forms.ModelForm):
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('username' ,'email', 'password1', 'password2', 'branch', 'section','semester','yearofadm')
+        fields = ('username' ,'email', 'password1', 'password2', 'branch', 'section','semester','yearofadm') 
