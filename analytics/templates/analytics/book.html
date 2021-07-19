@@ -1,9 +1,8 @@
-<html>
-    <head>
-        <title>Book reports</title>
-    </head>
-    <body>
-       <h2>
+{% extends "base.html" %}
+
+{% block title %}<title>Book reports</title>{% endblock %}
+    
+{% block content %}
         {% for boo in books %}
             <p>Code={{ boo.code }}</p>
             <p>Bookname={{ boo.bookname }}</p>
@@ -14,10 +13,7 @@
             {% for instance in instances %}
                 {% if boo == instance.book %} 
                    <p>Student:{{instance.student}},Due date:{{instance.due_back}}</p> 
-                  {% if } 
                 {% endif %}
             {% endfor %}
         {% endfor %}
-       </h2>
-    </body>
-</html>
+{% endblock %}

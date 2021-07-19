@@ -1,6 +1,8 @@
 from django.utils import translation
 from rest_framework import serializers
-from .models import Book,BookInstance,Author,Notice,Student,Mentor
+
+from .models import Book,BookInstance,Author, History,Notice,Mentor,Student
+from django.http import HttpResponseRedirect
 
 class AuthorSerializer(serializers.ModelSerializer):
 	# books = serializers.HyperlinkedRelatedField(view_name='Author-detail',many=True, queryset=Book.objects.all(),allow_null=True)
@@ -38,18 +40,12 @@ class BookSerializer(serializers.ModelSerializer):
 
 		return book_model
 
-class StudentSerializer(serializers.ModelSerializer):
- 	class Meta:
- 		model = Student
- 		fields = ['libid','regno','branch','section','semester','yearofadm']
-
 class BookInstanceSerializer(serializers.ModelSerializer):
 	# book = BookSerializer()
 	# student = StudentSerializer()
 	class Meta:
 		model = BookInstance
 		fields = ['id','book', 'due_back','is_available']
-
 
 class NoticeSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -61,3 +57,12 @@ class MentorSerializer(serializers.ModelSerializer):
 		model = Mentor
 		fields = ['mentorid','name','teamname']
 
+class HistorySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = History
+		fields = ['book','issued_on','due_on','instance','issuer']
+
+class StudentSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Student
+		fields = ['libid','regno','branch','section','semester','yearofadm']

@@ -1,15 +1,15 @@
 from rest_framework.serializers import Serializer
-from .models import  Book, BookInstance, Author, Notice ,Student,Mentor
-from .serializers import  BookSerializer, AuthorSerializer, BookInstanceSerializer, NoticeSerializer,StudentSerializer,MentorSerializer
+from .models import  Book, BookInstance, Author, History, Notice ,History,Mentor
+from .serializers import  BookSerializer, AuthorSerializer, BookInstanceSerializer, NoticeSerializer,MentorSerializer
 from rest_framework import viewsets
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core import serializers
 # from rest_framework.parsers import JSONParser
 
-class StudentModelViewset(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+#class StudentModelViewset(viewsets.ModelViewSet):
+ #   queryset = History.objects.all()
+  #  serializer_class = StudentSerializer
   
 class BookModelViewset(viewsets.ModelViewSet):
     queryset = Book.objects.all()

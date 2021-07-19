@@ -1,9 +1,9 @@
-<html>
-    <head>
-        <title>Student reports</title>
-    </head>
-    <body>
-       <h1>
+{% extends "base.html" %}
+    
+{% block title %}
+        <title>Student reports</title>{% endblock %}
+    
+{% block content %} 
         {% for student in students %}
          <p>libid={{student.libid}}</p>
          <p>regno={{student.regno}}</p>
@@ -12,6 +12,4 @@
          <p>semester={{student.semester}}</p>
          <p>year of admission={{student.yearofadm}}</p>
         {% endfor %}
-       </h1>
-    </body>
-</html>
+{% endblock %}

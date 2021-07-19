@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block content %}
+    
+	<h1>Notices Waiting for approval</h1>
+
+    {% if error == 1 %}
+    	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	        <strong>{{message}}</strong>
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+    	</div>
+    {% endif %}
+
+    {% if success == 1 %}
+    {% comment %} make this into success banner {% endcomment %}
+    	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	        <strong>{{message}}</strong>
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+    	</div>
+    {% endif %}
+
+    <h2>Select action - approve or Delete</h2>
+    <form action="{% url 'frontend:approve_notice' %}" method="POST">
+        {% csrf_token %}
+        <label for="action">Choose an action:</label>
+        <select name="action" id="action" required>
+            <option value="approve">Approve</option>
+            <option value="delete">Delete</option>
+        </select>
+        
+        <h2>Now, Select all the notices you wish to apply, then submit</h2>
+        <input type="submit" value="Submit">
+        <ul>
+            {% for notice in notices %}
+            {% comment %} <a href="TODO"> {% endcomment %}
+                <label for={{notice.id}}> 
+                    <li>
+                        {{ notice.title }} Posted on: {{notice.posted_on}}, By: {{notice.posted_by.username}} 
+                </label>
+                        <input type="checkbox" name={{notice.id}} value={{notice.id}}> 
+                    </li>
+                        Content:                
+                        <br>
+                            {{ notice.content }}
+                        <br>
+                    <br>
+            {% comment %} </a> {% endcomment %}
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

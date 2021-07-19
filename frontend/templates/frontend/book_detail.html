@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block style %}
+    .product-title,  .product-description, .price, .vote, .sizes {
+    margin-bottom: 15px; }
+{% endblock %}
+{% block content %}
+    <div class="container bg bg-white">
+
+    <div class="container-fliud">
+    <div class="wrapper row">
+    
+    <div class="details col-6">
+        <h1>Title: {{ book.bookname }}</h1>
+
+        <p><strong>Author:</strong>{{ book.author }}</p>
+        <p><strong>Summary:</strong> {{ book.summary }}</p>
+        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        <p><strong>Language:</strong> {{ book.language }}</p>
+        <p><strong>Genre:</strong>
+            {% for genre in book.genre.all %}{{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        <div style="margin-left:20px;margin-top:20px">
+            <h4>Copies</h4>
+            {% if user.is_superuser %}
+                <a class="btn btn-danger" href="">DELETE</a>
+                <a class="btn btn-success" href="">Update</a>
+
+            {% endif %}
+            {% if book.instances %}
+                <br>
+                no of avialable copies={{ book.available_copies }}<br>
+                <a class="btn btn-primary" href="">Issue</a>
+            {% endif %}      </div>
+
+    </div>
+
+    
+
+   
+
+{% endblock %}

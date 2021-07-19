@@ -1,9 +1,7 @@
 from django.contrib import admin
-from .models import Author, Book, BookInstance, Notice,Student,Mentor
 
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ['libid', 'regno', 'branch', 'section', 'semester']
+
+from .models import Author, Book, BookInstance, History, Notice,Mentor,Student
     
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -25,3 +23,10 @@ class NoticeAdmin(admin.ModelAdmin):
 class MentorAdmin(admin.ModelAdmin):
     list_display = ['mentorid', 'name','teamname']
     
+@admin.register(History)
+class HistoryAdmin(admin.ModelAdmin):
+    list_display = ['book', 'issued_on', 'due_on','instance', 'issuer']
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ['libid', 'regno', 'branch','section', 'semester','yearofadm']

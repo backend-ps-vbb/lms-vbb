@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block content %}
+	<h1>All Approved Notices</h1>
+    <ul>
+        {% for notice in notices %}
+           {% comment %} <a href="TODO"> {% endcomment %}
+            <li>{{ notice.title }} Posted on: {{notice.posted_on}}, By: {{notice.posted_by.username}}</li>
+           {% comment %} </a> {% endcomment %}
+        {% endfor %}
+    </ul>
+
+{% endblock %}

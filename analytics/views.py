@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from api.models import Book,BookInstance,Mentor,Student,Notice
+from api.models import Book,BookInstance,Mentor,History
 
 # Create your views here.
 
@@ -19,13 +19,13 @@ def mentor_report(request):
     })
 
 def student_report(request):
-    students=Student.objects.all()
+    students=History.objects.all()
     return render (request,"analytics/student.html",{
     'students':students,
     })
 
 def issue_report(request):
-    issues=Notice.objects.all()
+    issues=History.objects.all()
     return render (request,"analytics/issues.html",{
     'issues':issues,
     })
