@@ -13,3 +13,5 @@ __pycache__/
 *.so
 
 # files to ignore 
+db.sqlite3
+

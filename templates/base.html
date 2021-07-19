@@ -102,6 +102,24 @@
     <br>
     <div class="row mt-5 mx-auto">
         <div class="col-sm-10">
+                {% if error == 1 %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+
+                {% if success == 1 %}
+                {% comment %} make this into success banner {% endcomment %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
             {% block content %}{% endblock %}
 
 

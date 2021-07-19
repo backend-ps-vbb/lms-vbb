@@ -13,7 +13,7 @@ class SignUpView(CreateView):
    # send_mail( 
    # 'Welcome to VBB!',# subject
    # 'Hey,thanks for registering!',# message
-   # 'gpranavi2001@gmail.com',#sender
+   # '',#sender mail address
    # [CustomUser.email,],#recepient list,
    #  fail_silently=False
    #  )
