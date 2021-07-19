@@ -14,4 +14,7 @@ class NoticeForm(forms.ModelForm):
         model = Notice
         fields = ['title','content']
 
-    
+class AuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = '__all__'    

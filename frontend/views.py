@@ -94,6 +94,24 @@ def BookIssue(request, pk):
 	else:
 		return redirect('home')
 
+# authors
+@login_required
+@user_passes_test(is_librarian) # add seializer func
+def AuthorCreate(request):
+	form = AuthorForm()
+	if request.method == 'POST':
+		form = AuthorForm(data=request.POST, files=request.FILES)
+		if form.is_valid():
+			#generate book instances
+			author = form.save()
+		return render(request, 'frontend/form.html', {
+			"form":AuthorForm(),
+			"success":True,
+			"message":str(author) + " added"
+		})		
+	return render(request, 'frontend/form.html', locals())
+
+
 @login_required
 # form for notice.
 def NoticeCreate(request):

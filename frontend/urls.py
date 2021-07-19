@@ -12,6 +12,10 @@ urlpatterns = [
     path('book/<int:pk>/issue/', views.BookIssue, name='book_issue'),
     # path('book/<int:pk>/delete/', views.BookDelete, name='book_delete'),
 
+    # path('authors', views.AuthorListView, name='author_list'),
+    path('authors/create', views.AuthorCreate, name='author_create'),
+    # path('authors/<int:pk>', views.AuthorDetail, name='author_create'),
+
     path("noticeboard", views.notice_board, name="notice_board"),
     path("noticeboard/create", views.NoticeCreate, name="notice_create"),
     path("noticeboard/approve", views.approve_notice, name="approve_notice"),
