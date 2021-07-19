@@ -15,7 +15,6 @@ def Index(request):
 	copies = BookInstance.objects.filter(is_available=False).filter(student=request.user)
 	for copy in copies:
 		print(copy)
-	# MODELNAME.objects.all() is used to get all objects i.e. tuples from database
 	return render(request, 'home.html',{
 		"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
 	})
@@ -66,20 +65,29 @@ def BookCreate(request):
 @login_required
 def BookIssue(request, pk):
 	# http://127.0.0.1:8000/app/book/16/issue example url
-	print('tryying to issue')
+	print('trying to issue')
 	try:
 		book_model = Book.objects.get(pk=pk)
 	except:
-		return redirect('home') # change this to book detail
+		return render(request, 'frontend/book_list.html',{
+			"book_list":Book.objects.all(),
+			"error":True,
+			"message":"This book doesn't exist!"
+		})
 	issued = BookInstance.objects.filter(book=book_model).filter(is_available=False).filter(student=request.user) # all issued copies.
 	
 	if(len(issued)!=0): # cant issue another copy
 		print('issued')
-		return redirect('home')
+		return render(request, 'frontend/book_detail.html',{
+			"book":book_model,
+			"error":True,
+			"message":"You've already issued this book!"
+		})
 
-	copy = BookInstance.objects.filter(book=book_model).filter(is_available=True)[0]
+	copies = BookInstance.objects.filter(book=book_model).filter(is_available=True)
 	
-	if(copy):
+	if(len(copies)!=0):
+		copy = copies[0]
 		print(copy)
 		copy.is_available = False
 		copy.student = request.user
@@ -94,9 +102,18 @@ def BookIssue(request, pk):
 				returned=False,
 			)
 		record.save()
-		return redirect('home')
-	else:
-		return redirect('home')
+		# successfuly issued,
+		return render(request, 'home.html',{
+			"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+			"success":True,
+			"message":"Sucessfuly issued a copy of: " + str(book_model)
+		})
+	else:# no available copies!
+		return render(request, 'frontend/book_detail.html',{
+			"book":book_model,
+			"error":True,
+			"message":"Sorry, no copies of this book are available at the moment! "
+		})
 
 @login_required
 def BookReturn(request, pk):
@@ -105,12 +122,20 @@ def BookReturn(request, pk):
 	try:
 		book_model = Book.objects.get(pk=pk)
 	except:
-		return redirect('home') # change this to show error - book doesn't exist
+		return render(request, 'home.html',{
+			"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+			"error":True,
+			"message":"This book doesn't exist!"
+		})
 	issued = BookInstance.objects.filter(book=book_model).filter(is_available=False).filter(student=request.user) # all issued copies.
 	
 	if(len(issued)==0): # havent issued
 		print('not issued')
-		return redirect('home') # with error msg that not issued
+		return render(request, 'home.html',{
+			"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+			"error":True,
+			"message":"You haven't issued the book you're trying to return!"
+		}) # with error msg that not issued
 
 	# if here issued conrains the required book copy.
 	copy = issued[0]

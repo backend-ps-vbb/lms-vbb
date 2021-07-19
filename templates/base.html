@@ -40,15 +40,30 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
       
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'frontend:books' %}">Books <span class="sr-only">(current)</span></a>
             </li>
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Noticeboard
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'frontend:notice_board' %}">Noticeboard</a>
+                <a class="dropdown-item" href="{% url 'frontend:notice_create' %}">Post a notice</a>
+                {% if user.is_superuser %}            
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'frontend:approve_notice' %}">Approve Notices</a>
+                {% endif %}
+              </div>
+            </li>
+            
       
+      {% if user.is_superuser %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
             </li>
-      
-      {% if user.is_superuser %}
+
             <li class="nav-item">
               <a class="nav-link" href={% url 'frontend:author_create' %}>Add Author</a>
             </li>
