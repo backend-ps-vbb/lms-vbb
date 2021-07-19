@@ -11,7 +11,7 @@ urlpatterns = [
     path('book/<int:pk>/',views.BookDetailView, name='detail'),
     path('book/create/', views.BookCreate, name='book_create'),
     path('book/<int:pk>/issue/', views.BookIssue, name='book_issue'),
-    # path('book/<int:pk>/delete/', views.BookDelete, name='book_delete'),
+    path('book/<int:pk>/return/', views.BookReturn, name='book_return'),
 
     # path('authors', views.AuthorListView, name='author_list'),
     path('authors/create', views.AuthorCreate, name='author_create'),

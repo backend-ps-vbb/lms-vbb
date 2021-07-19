@@ -26,6 +26,7 @@ class History(models.Model): # record instance of issue and return
     book = models.ForeignKey('Book',on_delete=models.DO_NOTHING,null=False,blank=False)
     issued_on = models.DateField(null=False, blank=False)
     due_on = models.DateField(null=False, blank=False)
+    returned_on = models.DateField(null=True, blank=True)
     instance = models.ForeignKey('BookInstance',on_delete=models.DO_NOTHING,null=False,blank=False)
     issuer = models.ForeignKey(CustomUser,on_delete=models.DO_NOTHING,null=False,blank=False)
     returned = models.BooleanField(

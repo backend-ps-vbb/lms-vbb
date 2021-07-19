@@ -29,7 +29,7 @@
     {% for copy in copies %}
     <a href={% url 'frontend:detail' copy.book.pk %}>
           <li>
-              {{ copy }} </a> Due on: {{copy.due_back}} <a href={% url 'frontend:detail' copy.book.pk%} class="btn btn-danger">Return</a>
+              {{ copy }} </a> Due on: {{copy.due_back}} <a href={% url 'frontend:book_return' copy.book.pk%} class="btn btn-danger">Return</a>
           </li>
           <br>
     

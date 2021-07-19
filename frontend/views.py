@@ -4,7 +4,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .forms import *
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 def is_librarian(user):
 	return (user.is_superuser )
@@ -97,6 +97,42 @@ def BookIssue(request, pk):
 		return redirect('home')
 	else:
 		return redirect('home')
+
+@login_required
+def BookReturn(request, pk):
+	# http://127.0.0.1:8000/app/book/16/retrun example url
+	print('tryying to return')
+	try:
+		book_model = Book.objects.get(pk=pk)
+	except:
+		return redirect('home') # change this to show error - book doesn't exist
+	issued = BookInstance.objects.filter(book=book_model).filter(is_available=False).filter(student=request.user) # all issued copies.
+	
+	if(len(issued)==0): # havent issued
+		print('not issued')
+		return redirect('home') # with error msg that not issued
+
+	# if here issued conrains the required book copy.
+	copy = issued[0]
+	if(copy):
+		print(copy)
+		copy.is_available = True
+		copy.student = None
+		copy.due_back = None
+		copy.save()
+		
+		try:
+			record = History.objects.filter(instance=copy).filter(issuer=request.user).filter(returned=False)[0]
+			print(record)
+		except:
+			return redirect('home') # with error msg that not issued
+		record.returned_on = datetime.now()
+		record.returned = True
+		record.save()
+		return redirect('home') # with success message
+	else:
+		return redirect('home')
+
 
 # authors
 @login_required
