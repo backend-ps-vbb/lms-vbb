@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+    
+{% block title %}
+        <title>Student reports</title>{% endblock %}
+    
+{% block content %} 
+        {% for student in students %}
+         <p>libid={{student.libid}}</p>
+         <p>regno={{student.regno}}</p>
+         <p>branch={{student.branch}}</p>
+         <p>section={{student.section}}</p>
+         <p>semester={{student.semester}}</p>
+         <p>year of admission={{student.yearofadm}}</p>
+        {% endfor %}
+{% endblock %}

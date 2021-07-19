@@ -6,10 +6,25 @@
 {% block content %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
+  
   <p><a href="{% url 'logout' %}">Log Out</a></p>
+
+   <ul>
+    {% for copy in copies %}
+    <a href={% url 'frontend:detail' copy.book.pk %}>
+          <li>
+              {{ copy }} </a> Due on: {{copy.due_back}} <a href={% url 'frontend:detail' copy.book.pk%} class="btn btn-danger">Return</a>
+          </li>
+          <br>
+    
+    {% endfor %}
+</ul>
+
+
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">Log In</a> |
   <a href="{% url 'signup' %}">Sign Up</a>
+  
 {% endif %}
 {% endblock %}

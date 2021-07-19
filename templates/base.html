@@ -37,7 +37,7 @@
 
 <div class="container-fluid my-auto">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="">MY LIBRARY </a>
+        <a class="navbar-brand" href="{% url 'home' %}"">MY LIBRARY </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -46,11 +46,11 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="">Books</a>
+                    <a class="nav-link" href="{% url 'frontend:books' %}">Books</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="">Admin</a>
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                 </li>
                 
 
@@ -78,7 +78,7 @@
     <div class="dropdown-menu">
       <a class="dropdown-item" href="">ISSUED_BOOK</a>
       <a class="dropdown-item" href="">Reset Password</a>
-      <a class="dropdown-item" href="">Logout</a>
+      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
     </div>
   </div>
                          {% else %}
@@ -102,6 +102,24 @@
     <br>
     <div class="row mt-5 mx-auto">
         <div class="col-sm-10">
+                {% if error == 1 %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+
+                {% if success == 1 %}
+                {% comment %} make this into success banner {% endcomment %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
             {% block content %}{% endblock %}
 
 

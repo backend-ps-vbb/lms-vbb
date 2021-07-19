@@ -1,13 +1,14 @@
 from django.utils import translation
 from rest_framework import serializers
-from .models import Book,BookInstance,Author,Notice
+
+from .models import Book,BookInstance,Author, History,Notice,Mentor,Student
+from django.http import HttpResponseRedirect
 
 class AuthorSerializer(serializers.ModelSerializer):
 	# books = serializers.HyperlinkedRelatedField(view_name='Author-detail',many=True, queryset=Book.objects.all(),allow_null=True)
 	class Meta:
 		model = Author
 		fields = ['id','first_name', 'last_name', 'about']
-
 
 class BookSerializer(serializers.ModelSerializer):
 	# copies = serializers.HyperlinkedRelatedField(view_name='Book-detail',many=True, queryset=BookInstance.objects.all(),allow_null=True)
@@ -39,11 +40,6 @@ class BookSerializer(serializers.ModelSerializer):
 
 		return book_model
 
-# class StudentSerializer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model = Student
-# 		fields = ['libid','regno','branch','section','semester','yearofadm']
-
 class BookInstanceSerializer(serializers.ModelSerializer):
 	# book = BookSerializer()
 	# student = StudentSerializer()
@@ -51,8 +47,22 @@ class BookInstanceSerializer(serializers.ModelSerializer):
 		model = BookInstance
 		fields = ['id','book', 'due_back','is_available']
 
-
 class NoticeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Notice
 		fields = ['id','posted_on', 'title', 'content', 'is_approved']
+
+class MentorSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Mentor
+		fields = ['mentorid','name','teamname']
+
+class HistorySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = History
+		fields = ['book','issued_on','due_on','instance','issuer']
+
+class StudentSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Student
+		fields = ['libid','regno','branch','section','semester','yearofadm']
