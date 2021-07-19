@@ -5,7 +5,7 @@ app_name="frontend"
 urlpatterns = [
     # path("", views.index, name="index"),
     # path("search", views.search, name="search"),
-    path('stdentcreate', views.StudentCreate, name='student_create'),
+    path('studentcreate', views.StudentCreate, name='student_create'),
 
     path("books", views.BookListView, name="books"),
     path('book/<int:pk>/',views.BookDetailView, name='detail'),
