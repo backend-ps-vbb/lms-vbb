@@ -100,7 +100,7 @@ def BookIssue(request, pk):
 
 # authors
 @login_required
-@user_passes_test(is_librarian) # add seializer func
+@user_passes_test(is_librarian) 
 def AuthorCreate(request):
 	form = AuthorForm()
 	if request.method == 'POST':
@@ -115,6 +115,22 @@ def AuthorCreate(request):
 		})		
 	return render(request, 'frontend/form.html', locals())
 
+# add student
+@login_required
+@user_passes_test(is_librarian) 
+def StudentCreate(request):
+	form = CustomUserCreationForm()
+	if request.method == 'POST':
+		form = CustomUserCreationForm(data=request.POST, files=request.FILES)
+		if form.is_valid():
+			#generate book instances
+			student = form.save()
+		return render(request, 'frontend/form.html', {
+			"form":CustomUserCreationForm(),
+			"success":True,
+			"message":str(student) + " added"
+		})		
+	return render(request, 'frontend/form.html', locals())
 
 @login_required
 # form for notice.

@@ -56,7 +56,11 @@
             <li class="nav-item">
               <a class="nav-link" href={% url 'frontend:book_create' %}>Add Book</a>
             </li>
-      
+
+            <li class="nav-item">
+              <a class="nav-link" href={% url 'frontend:student_create' %}>Register Students</a>
+            </li>
+
             <li class="nav-item">
               <a class="nav-link" href="{% url 'admin:accounts_customuser_changelist'%}?is_superuser__exact=0">Student List</a>
             </li>
