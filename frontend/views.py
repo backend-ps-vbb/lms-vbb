@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.http import request
 from api.models import *
 from django.shortcuts import render,get_object_or_404,redirect
@@ -19,6 +20,7 @@ def Index(request):
 		"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
 	})
 
+#BOOKS
 @login_required
 def BookListView(request):
 	book_list = Book.objects.all()
@@ -28,7 +30,16 @@ def BookListView(request):
 @login_required
 def BookDetailView(request, pk):
 	book = get_object_or_404(Book, code=pk)
-	copies=BookInstance.objects.filter(book=book).filter(is_available=True)
+	copies = BookInstance.objects.filter(book=book).filter(is_available=True)
+	copy = BookInstance.objects.filter(is_available=False).filter(student=request.user).filter(book=book)
+	if(len(copy)!=0):
+		print( request.user ) 
+		print( copy )
+		return render(request, 'frontend/book_detail.html', {
+			"book":book,
+			"available_copies": 0,
+			"copy":copy[0]
+		})	
 	return render(request, 'frontend/book_detail.html', {
 		"book":book,
 		"available_copies": len(copies),
@@ -141,23 +152,35 @@ def BookReturn(request, pk):
 	copy = issued[0]
 	if(copy):
 		print(copy)
-		copy.is_available = True
-		copy.student = None
-		copy.due_back = None
-		copy.save()
-		
 		try:
 			record = History.objects.filter(instance=copy).filter(issuer=request.user).filter(returned=False)[0]
+			copy.is_available = True
+			copy.student = None
+			copy.due_back = None
+			copy.save()
 			print(record)
 		except:
-			return redirect('home') # with error msg that not issued
+			return render(request, 'home.html',{
+						"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+						"error":True,
+						"message":"There is no record of you issuing this book!" 
+					})
 		record.returned_on = datetime.now()
 		record.returned = True
 		record.save()
-		return redirect('home') # with success message
+		return render(request, 'home.html',{
+						"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+						"success":True,
+						"message":"Successfully returned: " + str(copy) 
+					})
 	else:
-		return redirect('home')
+		return render(request, 'home.html',{
+			"copies":BookInstance.objects.filter(is_available=False).filter(student=request.user),
+			"error":True,
+			"message":"You haven't issued the book you're trying to return!"
+		})
 
+##############################################################################
 
 # authors
 @login_required
@@ -176,6 +199,8 @@ def AuthorCreate(request):
 		})		
 	return render(request, 'frontend/form.html', locals())
 
+##############################################################################
+
 # add student
 @login_required
 @user_passes_test(is_librarian) 
@@ -193,6 +218,9 @@ def StudentCreate(request):
 		})		
 	return render(request, 'frontend/form.html', locals())
 
+##############################################################################
+
+#NOTICES
 @login_required
 # form for notice.
 def NoticeCreate(request):
@@ -221,7 +249,6 @@ def NoticeCreate(request):
 				"message":"Notice Submitted successfuly"
 			})
 	return render(request, 'frontend/form.html', locals())
-
 
 @login_required
 def notice_board(request):
@@ -336,3 +363,51 @@ def approve_notice(request):
 		"notices":notices,
 		"title":"Approve Notices"
 	})
+
+##############################################################################
+
+#SEARCH
+@login_required
+def Search(request):
+	try:
+		query = request.GET['q']
+	except:
+		return render(request, 'frontend/book_list.html', {
+			"book_list":None,
+			"error":True,
+			"message":"No serach query provided! "
+		})	
+	
+	# have a search query
+	print('query: ' + query)
+	
+	#search books
+	books = Book.objects.filter(bookname__contains=query)
+	results=set()
+	for book in books:
+		results.add(book)
+	#search authors
+	books = Book.objects.filter(author__first_name__contains=query)
+	for book in books:
+		results.add(book)
+	books = Book.objects.filter(author__last_name__contains=query)
+	for book in books:
+		results.add(book)
+
+	#search for full name
+	# books = Book.objects.all()
+	# for book in books:
+	# 	if((book.author.full_name()))
+
+	if results:
+		return render(request, 'frontend/book_list.html', {
+			"book_list":results,
+			"success":True,
+			"message":"Serach results for the query: " + str(query)
+		})	
+	else:
+		return render(request, 'frontend/book_list.html', {
+			"book_list":None,
+			"error":True,
+			"message":"Sorry, no Serach results for the query: " + str(query)
+		})

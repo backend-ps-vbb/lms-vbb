@@ -20,6 +20,8 @@ class Author(models.Model):
     about = models.TextField(null=True, default=None , blank=True) #added this field incase we want to display an author page down the line
     def __str__(self):
         return f'{self.first_name} , {self.last_name}'
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
 
 class History(models.Model): # record instance of issue and return
     id = models.AutoField(primary_key=True)

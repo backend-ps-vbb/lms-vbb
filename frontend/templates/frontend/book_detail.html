@@ -18,14 +18,27 @@
             <h4>Copies</h4>
             {% if user.is_superuser %}
                 <a class="btn btn-danger" href="">DELETE</a>
-                <a class="btn btn-success" href="">Update</a>
-
+                
             {% endif %}
             {% if available_copies %}
                 <br>
-                no of avialable copies={{ available_copies }}<br>
+                # of avialable copies={{ available_copies }}
+                <br>
                 <a class="btn btn-primary" href="{% url 'frontend:book_issue' book.pk %}">Issue</a>
-            {% endif %}      </div>
+            
+            {% elif copy %}
+                <br>
+                    You have already issued this book! 
+                </br>
+                {{ copy }} </a> Due on: {{copy.due_back}} <a href={% url 'frontend:book_return' copy.book.pk%} class="btn btn-danger">Return</a>            
+            {% else %}
+                <br>
+                    Sorry, all copies of this book are issued at the moment!
+                </br>
+                <a class="btn btn-primary" href="#" disabled>Issue</a>
+            {% endif %}      
+        
+        </div>
 
     </div>
 

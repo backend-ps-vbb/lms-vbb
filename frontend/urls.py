@@ -20,5 +20,7 @@ urlpatterns = [
     path("noticeboard/", views.notice_board, name="notice_board"),
     path("noticeboard/create", views.NoticeCreate, name="notice_create"),
     path("noticeboard/approve", views.approve_notice, name="approve_notice"),
+
+    path("search/", views.Search, name="search"),
      
 ]
