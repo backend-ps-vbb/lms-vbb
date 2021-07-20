@@ -5,7 +5,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<div class="p-3 mb-2 bg-dark text-white d-flex align-items-center mb-4 py-4" id="home" style="min-height: 60vh;">
+<div class="p-3 mb-4 bg-dark text-white d-flex align-items-center mb-4 py-4" id="home" style="min-height: 30vh">
   <div class="container">
       <div class="row align-items-center">
          
@@ -14,9 +14,7 @@
               <h3 class="display-3 text-uppercase text-primary mb-2" style="-webkit-text-stroke: 4px #ffffff;">{{ user.username }}!</h3>
               <h3 class="typed-text-output d-inline font-weight-lighter text-white"></h3>
           </div>
-          <div class="col-lg-6 px-8 pl-lg-0 pb-5 pb-lg-4 about-img">
-              <img class="img-fluid rectangle shadow-sm" src="https://t4.ftcdn.net/jpg/03/40/07/85/360_F_340078556_YD52qpLaiTbO5E0OF90FuOaAq3sZr8yF.jpg" alt="">
-          </div>
+          
       </div>
   </div>
 </div>
