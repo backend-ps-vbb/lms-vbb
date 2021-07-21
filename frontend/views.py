@@ -211,11 +211,11 @@ def StudentCreate(request):
 		if form.is_valid():
 			#generate book instances
 			student = form.save()
-		return render(request, 'frontend/form.html', {
-			"form":CustomUserCreationForm(),
-			"success":True,
-			"message":str(student) + " added"
-		})		
+			return render(request, 'frontend/form.html', {
+				"form":CustomUserCreationForm(),
+				"success":True,
+				"message":str(student) + " added"
+			})		
 	return render(request, 'frontend/form.html', locals())
 
 ##############################################################################
